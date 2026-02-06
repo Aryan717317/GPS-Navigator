@@ -57,6 +57,12 @@ export default function MapView({
     const endMarkerRef = useRef<L.Marker | null>(null);
     const routeLineRef = useRef<L.Polyline | null>(null);
 
+    const onMapClickRef = useRef(onMapClick);
+
+    useEffect(() => {
+        onMapClickRef.current = onMapClick;
+    }, [onMapClick]);
+
     // Initialize map
     useEffect(() => {
         if (!mapContainerRef.current || mapRef.current) return;
@@ -75,7 +81,7 @@ export default function MapView({
         ).addTo(map);
 
         map.on("click", (e: L.LeafletMouseEvent) => {
-            onMapClick({ lat: e.latlng.lat, lng: e.latlng.lng });
+            onMapClickRef.current({ lat: e.latlng.lat, lng: e.latlng.lng });
         });
 
         mapRef.current = map;
