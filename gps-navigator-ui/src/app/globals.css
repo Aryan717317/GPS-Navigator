@@ -1,18 +1,23 @@
 @import "tailwindcss";
 
-/* Automotive Dark Theme - Inspired by premium car infotainment systems */
+/* Premium Automotive Theme - Vibrant Neon Edition */
 :root {
-  --background: #0a0a0f;
-  --foreground: #f0f0f5;
-  --primary: #00d4ff;
-  --primary-glow: rgba(0, 212, 255, 0.3);
-  --accent: #00ff88;
-  --muted: #1a1a24;
-  --muted-foreground: #a0a0b0;
-  --card: rgba(20, 20, 30, 0.8);
-  --card-border: rgba(255, 255, 255, 0.1);
-  --destructive: #ff4444;
-  --warning: #ffaa00;
+  --background: #0f0f1a;
+  --foreground: #ffffff;
+  --primary: #00e5ff;
+  --primary-glow: rgba(0, 229, 255, 0.4);
+  --secondary: #7c4dff;
+  --secondary-glow: rgba(124, 77, 255, 0.4);
+  --accent: #00e676;
+  --accent-glow: rgba(0, 230, 118, 0.4);
+  --muted: #1e1e2e;
+  --muted-foreground: #b0b0c0;
+  --card: rgba(30, 30, 50, 0.85);
+  --card-border: rgba(255, 255, 255, 0.12);
+  --destructive: #ff5252;
+  --warning: #ffab40;
+  --gradient-primary: linear-gradient(135deg, #00e5ff 0%, #7c4dff 100%);
+  --gradient-accent: linear-gradient(135deg, #00e676 0%, #00e5ff 100%);
 }
 
 @theme inline {
@@ -30,7 +35,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -44,18 +50,44 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Glassmorphic Card */
+/* Premium Glassmorphic Card */
 .glass-card {
   background: var(--card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--card-border);
-  border-radius: 16px;
+  border-radius: 20px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Glow Effect */
+/* Gradient Button */
+.btn-gradient {
+  background: var(--gradient-primary);
+  border: none;
+  color: #0f0f1a;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--primary-glow);
+}
+
+/* Neon Glow Effects */
 .glow-primary {
-  box-shadow: 0 0 20px var(--primary-glow), 0 0 40px rgba(0, 212, 255, 0.1);
+  box-shadow:
+    0 0 20px var(--primary-glow),
+    0 0 40px rgba(0, 229, 255, 0.15),
+    inset 0 0 20px rgba(0, 229, 255, 0.05);
+}
+
+.glow-accent {
+  box-shadow:
+    0 0 20px var(--accent-glow),
+    0 0 40px rgba(0, 230, 118, 0.15);
 }
 
 /* Custom Scrollbar */
@@ -69,11 +101,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
   border-radius: 3px;
 }
 
-/* Leaflet overrides for dark theme */
+/* Leaflet Map Enhancements */
 .leaflet-container {
   background: var(--background) !important;
   font-family: inherit !important;
@@ -82,12 +114,23 @@ body {
 .leaflet-control-zoom {
   border: none !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
 }
 
 .leaflet-control-zoom a {
   background: var(--muted) !important;
   color: var(--foreground) !important;
-  border: 1px solid var(--card-border) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--card-border) !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 18px !important;
+}
+
+.leaflet-control-zoom a:last-child {
+  border-bottom: none !important;
 }
 
 .leaflet-control-zoom a:hover {
@@ -99,13 +142,34 @@ body {
   display: none !important;
 }
 
+/* Animated Gradient Border */
+.gradient-border {
+  position: relative;
+  background: var(--card);
+  border-radius: 20px;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  background: var(--gradient-primary);
+  z-index: -1;
+  opacity: 0.6;
+  filter: blur(8px);
+}
+
 /* Animation utilities */
 @keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 10px var(--primary-glow);
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px var(--primary-glow);
   }
+
   50% {
-    box-shadow: 0 0 25px var(--primary-glow), 0 0 50px rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 30px var(--primary-glow), 0 0 60px rgba(0, 229, 255, 0.25);
   }
 }
 
@@ -113,11 +177,31 @@ body {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
 @keyframes slide-up {
   from {
     transform: translateY(100%);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -126,4 +210,42 @@ body {
 
 .animate-slide-up {
   animation: slide-up 0.5s ease-out forwards;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Marker Pulse Animation */
+@keyframes marker-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.marker-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: inherit;
+  animation: marker-pulse 1.5s ease-out infinite;
 }

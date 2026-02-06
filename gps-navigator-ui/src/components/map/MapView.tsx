@@ -22,26 +22,43 @@ interface MapViewProps {
     setIsLoading: (loading: boolean) => void;
 }
 
-// Custom marker icons
-const createIcon = (color: string) =>
+// Custom marker icons with pulse effect
+const createIcon = (color: string, isPrimary: boolean = false) =>
     L.divIcon({
         className: "custom-marker",
         html: `
       <div style="
-        width: 24px;
-        height: 24px;
-        background: ${color};
-        border: 3px solid white;
-        border-radius: 50%;
-        box-shadow: 0 0 15px ${color}, 0 4px 10px rgba(0,0,0,0.3);
-      "></div>
+        position: relative;
+        width: 28px;
+        height: 28px;
+      ">
+        <div style="
+          position: absolute;
+          width: 28px;
+          height: 28px;
+          background: ${color};
+          border: 3px solid white;
+          border-radius: 50%;
+          box-shadow: 0 0 20px ${color}, 0 0 40px ${color}80, 0 4px 15px rgba(0,0,0,0.4);
+          z-index: 2;
+        "></div>
+        <div style="
+          position: absolute;
+          width: 28px;
+          height: 28px;
+          background: ${color};
+          border-radius: 50%;
+          animation: marker-pulse 1.5s ease-out infinite;
+          opacity: 0.6;
+        "></div>
+      </div>
     `,
-        iconSize: [24, 24],
-        iconAnchor: [12, 12],
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
     });
 
-const startIcon = createIcon("#00ff88");
-const endIcon = createIcon("#ff4444");
+const startIcon = createIcon("#00e676", true);
+const endIcon = createIcon("#ff5252", false);
 
 export default function MapView({
     startLocation,
@@ -72,11 +89,11 @@ export default function MapView({
             attributionControl: false,
         }).setView([20, 0], 2);
 
-        // Dark tile layer - CartoDB Dark Matter
+        // Vibrant dark tile layer - Stadia Alidade Smooth Dark
         L.tileLayer(
-            "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+            "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
             {
-                maxZoom: 19,
+                maxZoom: 20,
             }
         ).addTo(map);
 
