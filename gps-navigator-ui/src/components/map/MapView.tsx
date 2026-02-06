@@ -179,18 +179,43 @@ export default function MapView({
                     // Fit bounds to show entire route
                     map.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
 
-                    // Parse instructions
-                    const instructions = route.legs[0].steps.map((step: any) => ({
-                        text: step.maneuver.instruction || step.name,
-                        distance: step.distance,
-                        time: step.duration,
-                    }));
+                    // Parse instructions with better fallbacks
+                    const instructions = route.legs[0].steps
+                        .map((step: any) => {
+                            let text = step.maneuver.instruction || step.name;
+
+                            // If still empty, build from maneuver type/modifier
+                            if (!text || text.trim() === "") {
+                                const type = step.maneuver.type;
+                                const modifier = step.maneuver.modifier;
+
+                                if (type === "depart") text = "Depart from start";
+                                else if (type === "arrive") text = "Arrive at destination";
+                                else if (modifier) {
+                                    text = `${type.charAt(0).toUpperCase() + type.slice(1)} ${modifier.replace("_", " ")}`;
+                                } else {
+                                    text = type.charAt(0).toUpperCase() + type.slice(1);
+                                }
+                            }
+
+                            // Clean up name-only strings if they are just towns
+                            if (text && text.includes(" - ")) {
+                                text = `Drive towards ${text}`;
+                            }
+
+                            return {
+                                text: text || "Continue driving",
+                                distance: step.distance,
+                                time: step.duration,
+                            };
+                        })
+                        .filter((step: any) => step.distance > 0 || step.text.toLowerCase().includes("arrive"));
 
                     onRouteFound({
                         distance: route.distance,
                         duration: route.duration,
                         coordinates,
-                        instructions,
+                        instructions: instructions.length > 0 ? instructions : [{ text: "Follow the path", distance: route.distance, time: route.duration }],
                     });
                 }
             } catch (error) {
