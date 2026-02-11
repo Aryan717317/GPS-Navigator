@@ -66,13 +66,8 @@ Contributions to GPS Navigator are welcome! If you'd like to improve the applica
 
 5. Create a pull request on the main repository's `main` branch.
 
-## Visit The webpage
- https://dhruvabhat24.github.io/GPS-NAVIGATOR/
-
 ##
 
 Navigate efficiently with GPS Navigator, your go-to solution for finding the shortest distance between two locations. Plan your trips with confidence using Dijkstra's algorithm and enjoy hassle-free navigation.
 
-
-https://github.com/Dhruvabhat24/GPS-NAVIGATOR/assets/122305929/1bf2fada-8543-43b0-913c-38ab87671a39
 
